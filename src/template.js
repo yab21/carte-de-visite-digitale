@@ -75,6 +75,10 @@ function icon(name, cls = "") {
  */
 export function generateCardPage(data, opts = {}) {
   const vcfFile = opts.vcfFile || `${data.slug}.vcf`;
+  // Préfixe des assets selon l'emplacement de la page : ".." pour /<slug>/,
+  // "." pour la racine (cas carte unique servie directement à la racine).
+  const ap = opts.assetPrefix || "..";
+  const asset = (p) => `${ap}/${String(p).replace(/^\.\.\//, "")}`;
   const primary = data.phones.find((p) => p.primary) || data.phones[0];
   const fullName = `${data.firstName} ${data.lastName}`;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`;
@@ -128,7 +132,7 @@ export function generateCardPage(data, opts = {}) {
   </script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boosted@${BOOSTED_VERSION}/dist/css/orange-helvetica.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boosted@${BOOSTED_VERSION}/dist/css/boosted.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="${ap}/css/style.css">
 </head>
 <body>
   ${iconSprite()}
@@ -136,12 +140,12 @@ export function generateCardPage(data, opts = {}) {
   <main class="container px-3 py-3 py-sm-4" style="max-width: 560px;">
     <div class="cv-sheet">
       <!-- Décor de marque : visuel officiel OmLogo1 (filigrane haut + flèche bas) -->
-      <img class="cv-deco cv-deco-top" src="../assets/om-arrows.svg" alt="">
-      <img class="cv-deco cv-deco-bottom" src="../assets/om-arrow-orange.svg" alt="">
+      <img class="cv-deco cv-deco-top" src="${asset("assets/om-arrows.svg")}" alt="">
+      <img class="cv-deco cv-deco-bottom" src="${asset("assets/om-arrow-orange.svg")}" alt="">
       <!-- Haut : logo + slogan + baseline corporate -->
       <header class="cv-top">
         <div>
-          <img class="cv-logo" src="${esc(data.logo)}" alt="Orange Money">
+          <img class="cv-logo" src="${asset(data.logo)}" alt="Orange Money">
           <p class="cv-logo-slogan">${esc(data.slogan)}</p>
         </div>
         <p class="cv-tagline">${esc(data.tagline)}<span class="cv-tagline-bar"></span></p>
@@ -149,7 +153,7 @@ export function generateCardPage(data, opts = {}) {
 
       <!-- Identité -->
       <div class="text-center cv-id">
-        <img class="cv-avatar" src="${esc(data.photo)}" alt="Photo de ${esc(fullName)}">
+        <img class="cv-avatar" src="${asset(data.photo)}" alt="Photo de ${esc(fullName)}">
         <h1 class="cv-name mt-3 mb-1">${esc(fullName)}</h1>
         <p class="cv-role mb-1">${esc(data.position)}</p>
         <p class="cv-dept mb-2">${esc(data.department)}</p>
@@ -232,26 +236,14 @@ export function generateCardPage(data, opts = {}) {
 }
 
 /**
- * Page d'accueil : si une seule carte (cas du prototype), redirection
- * immédiate vers elle. Si plusieurs cartes, affiche la liste.
+ * Page d'accueil : si une seule carte (cas du prototype), la carte est servie
+ * DIRECTEMENT à la racine (aucune redirection, aucun flash). Sinon (plusieurs
+ * employés), affiche la liste des cartes.
  */
-export function generateIndexPage(entries) {
-  if (entries.length === 1) {
-    const slug = entries[0].slug;
-    return `<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${esc(entries[0].name)} — Orange Money</title>
-  <meta http-equiv="refresh" content="0; url=./${esc(slug)}/">
-  <link rel="canonical" href="./${esc(slug)}/">
-</head>
-<body>
-  <p><a href="./${esc(slug)}/">Ouvrir la carte de ${esc(entries[0].name)}</a></p>
-  <script>window.location.replace("./${esc(slug)}/");</script>
-</body>
-</html>`;
+export function generateIndexPage(entries, datas = []) {
+  if (entries.length === 1 && datas.length === 1) {
+    const data = datas[0];
+    return generateCardPage(data, { vcfFile: `${data.slug}/${data.slug}.vcf`, assetPrefix: "." });
   }
 
   const cards = entries

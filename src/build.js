@@ -50,9 +50,11 @@ const files = (await readdir(dataDir)).filter((f) => f.endsWith(".json"));
 if (files.length === 0) throw new Error("Aucun fichier data/*.json trouvé.");
 
 const entries = [];
+const datas = [];
 for (const file of files) {
   const data = JSON.parse(await readFile(path.join(dataDir, file), "utf8"));
   if (!data.slug) throw new Error(`Champ "slug" manquant dans data/${file}`);
+  datas.push(data);
 
   const pageUrl = `${BASE_URL}/${data.slug}/`;
   const outDir = path.join(root, data.slug);
@@ -75,7 +77,7 @@ for (const file of files) {
   console.log(`OK  /${data.slug}/  +  /${data.slug}/${data.slug}.vcf  +  qr/${data.slug}.png  -> ${pageUrl}`);
 }
 
-// 4. Page d'accueil (liste des cartes)
-await writeFile(path.join(root, "index.html"), generateIndexPage(entries), "utf8");
+// 4. Page d'accueil (carte directe si employé unique, sinon liste)
+await writeFile(path.join(root, "index.html"), generateIndexPage(entries, datas), "utf8");
 console.log(`OK  /index.html (${entries.length} carte(s))`);
 console.log(`BASE_URL utilisée : ${BASE_URL}`);
