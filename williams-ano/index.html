@@ -68,6 +68,12 @@
         <p class="cv-tagline">DIGITAL FINANCIAL SERVICES FOR A BRIGHTER TOMORROW<span class="cv-tagline-bar"></span></p>
       </header>
 
+      <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
+      <div class="cv-lang" role="group" aria-label="Langue / Language">
+        <button type="button" class="cv-lang-btn is-active" data-lang="fr">FR</button>
+        <button type="button" class="cv-lang-btn" data-lang="en">EN</button>
+      </div>
+
       <!-- Identité -->
       <div class="text-center cv-id">
         <img class="cv-avatar" src="../assets/photo.jpg" alt="Photo de Williams ANO">
@@ -78,18 +84,18 @@
       </div>
 
       <!-- 4 actions rapides : pastilles orange -->
-      <nav class="cv-quick" aria-label="Actions rapides">
+      <nav class="cv-quick" aria-label="Actions rapides" data-i18n-aria="quickNav">
         <a class="cv-qa" href="tel:+231777777912">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span><span>Appeler</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span><span data-i18n="call">Appeler</span>
         </a>
         <a class="cv-qa" href="sms:+231777777912">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-chat"></use></svg></span><span>Message</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-chat"></use></svg></span><span data-i18n="message">Message</span>
         </a>
         <a class="cv-qa" href="mailto:williams.ano@orange.com">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-mail"></use></svg></span><span>Email</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-mail"></use></svg></span><span data-i18n="email">Email</span>
         </a>
         <a class="cv-qa" id="saveContactBtn" href="./williams-ano.vcf" download="williams-ano.vcf">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-userplus"></use></svg></span><span>Enregistrer le contact</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-userplus"></use></svg></span><span data-i18n="save">Enregistrer le contact</span>
         </a>
       </nav>
 
@@ -100,7 +106,7 @@
         <a href="tel:+231777777912" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
           <span class="cv-row-ic"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span>
           <span>
-            <strong class="d-block">+231 777 777 912</strong>
+            <strong class="d-block">+231777777912</strong>
             <span class="cv-row-sub d-block">Mobile, Liberia</span>
           </span>
           <svg class="cv-chevron ms-auto" aria-hidden="true" focusable="false"><use href="#i-chevron"></use></svg>
@@ -110,7 +116,7 @@
         <a href="tel:+2250747592652" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
           <span class="cv-row-ic"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span>
           <span>
-            <strong class="d-block">+225 07 4759 2652</strong>
+            <strong class="d-block">+2250747592652</strong>
             <span class="cv-row-sub d-block">Mobile, Côte d'Ivoire</span>
           </span>
           <svg class="cv-chevron ms-auto" aria-hidden="true" focusable="false"><use href="#i-chevron"></use></svg>
@@ -139,7 +145,7 @@
         </li>
       </ul>
       
-      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux">
+      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux" data-i18n-aria="socialNav">
         
           <a class="cv-social-brand cv-social-linkedin" href="https://www.linkedin.com/in/koidja-williams-ano-7672b2130/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
             <svg class="" aria-hidden="true" focusable="false"><use href="#i-linkedin"></use></svg>
@@ -161,13 +167,17 @@
   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
     <div id="savedToast" class="toast cv-toast-ok align-items-center" role="status" aria-live="polite">
       <div class="d-flex">
-        <div class="toast-body">Contact enregistré dans votre téléphone.</div>
+        <div class="toast-body" data-i18n="toast">Contact enregistré dans votre téléphone.</div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/boosted@5.3.8/dist/js/boosted.bundle.min.js"></script>
+  <script>
+    // Dictionnaire FR/EN généré depuis data/<slug>.json (aucune langue en dur ici).
+    const I18N = {"fr":{"call":"Appeler","message":"Message","email":"Email","save":"Enregistrer le contact","toast":"Contact enregistré dans votre téléphone.","quickNav":"Actions rapides","socialNav":"Réseaux sociaux"},"en":{"call":"Call","message":"Message","email":"Email","save":"Save contact","toast":"Contact saved to your phone.","quickNav":"Quick actions","socialNav":"Social media"}};
+  </script>
   <script>
     // Affiche le toast quand l'utilisateur télécharge la vCard.
     document.getElementById("saveContactBtn").addEventListener("click", function () {
@@ -176,6 +186,31 @@
         boosted.Toast.getOrCreateInstance(el).show();
       }
     });
+
+    // Bilinguisme : détecte la langue du téléphone, sélecteur FR/EN, choix mémorisé.
+    (function () {
+      var group = document.querySelector(".cv-lang");
+      if (!group || !I18N.fr || !I18N.en) return;
+      var btns = Array.prototype.slice.call(group.querySelectorAll("[data-lang]"));
+      function apply(lang) {
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n")];
+          if (v) el.textContent = v;
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-aria")];
+          if (v) el.setAttribute("aria-label", v);
+        });
+        document.documentElement.setAttribute("lang", lang);
+        btns.forEach(function (b) { b.classList.toggle("is-active", b.dataset.lang === lang); });
+        try { localStorage.setItem("cv-lang", lang); } catch (e) {}
+      }
+      var saved = null;
+      try { saved = localStorage.getItem("cv-lang"); } catch (e) {}
+      var initial = saved || (((navigator.language || "fr").toLowerCase().indexOf("fr") === 0) ? "fr" : "en");
+      btns.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.lang); }); });
+      apply(initial);
+    })();
   </script>
 </body>
 </html>

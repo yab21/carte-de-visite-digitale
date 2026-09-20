@@ -460,6 +460,38 @@ body {
   background-color: var(--cv-brand-whatsapp);
 }
 
+/* --- Sélecteur de langue FR/EN (discret, tokens ODS) --- */
+.cv-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.cv-lang-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--ods-gray-400);
+  background-color: transparent;
+  color: var(--ods-gray-600);
+  cursor: pointer;
+}
+
+.cv-lang-btn:first-child {
+  border-radius: 999px 0 0 999px;
+}
+
+.cv-lang-btn:last-child {
+  border-radius: 0 999px 999px 0;
+  border-left: 0;
+}
+
+.cv-lang-btn.is-active {
+  background-color: var(--ods-orange-100);
+  border-color: var(--ods-orange-100);
+  color: var(--ods-white-100);
+}
+
 /* --- Pied de carte --- */
 .cv-foot {
   text-align: center;

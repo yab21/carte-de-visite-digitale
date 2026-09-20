@@ -12,13 +12,13 @@
   "phones": [
     {
       "label": "Mobile, Liberia",
-      "display": "+231 777 777 912",
+      "display": "+231777777912",
       "href": "+231777777912",
       "primary": true
     },
     {
       "label": "Mobile, Côte d'Ivoire",
-      "display": "+225 07 4759 2652",
+      "display": "+2250747592652",
       "href": "+2250747592652",
       "primary": false
     }
@@ -35,6 +35,26 @@
     "url": "https://www.orange.com.lr"
   },
   "_social_note": "Réseaux sociaux V1 : LinkedIn + WhatsApp uniquement (X/YouTube à ajouter plus tard si besoin).",
+  "i18n": {
+    "fr": {
+      "call": "Appeler",
+      "message": "Message",
+      "email": "Email",
+      "save": "Enregistrer le contact",
+      "toast": "Contact enregistré dans votre téléphone.",
+      "quickNav": "Actions rapides",
+      "socialNav": "Réseaux sociaux"
+    },
+    "en": {
+      "call": "Call",
+      "message": "Message",
+      "email": "Email",
+      "save": "Save contact",
+      "toast": "Contact saved to your phone.",
+      "quickNav": "Quick actions",
+      "socialNav": "Social media"
+    }
+  },
   "social": [
     {
       "label": "LinkedIn",

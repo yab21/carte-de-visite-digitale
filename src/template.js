@@ -105,7 +105,7 @@ export function generateCardPage(data, opts = {}) {
   const socialBlock =
     data.social && data.social.length > 0
       ? `
-      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux">
+      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux" data-i18n-aria="socialNav">
         ${data.social
           .map(
             (s) => `
@@ -151,6 +151,12 @@ export function generateCardPage(data, opts = {}) {
         <p class="cv-tagline">${esc(data.tagline)}<span class="cv-tagline-bar"></span></p>
       </header>
 
+      <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
+      <div class="cv-lang" role="group" aria-label="Langue / Language">
+        <button type="button" class="cv-lang-btn is-active" data-lang="fr">FR</button>
+        <button type="button" class="cv-lang-btn" data-lang="en">EN</button>
+      </div>
+
       <!-- Identité -->
       <div class="text-center cv-id">
         <img class="cv-avatar" src="${asset(data.photo)}" alt="Photo de ${esc(fullName)}">
@@ -161,18 +167,18 @@ export function generateCardPage(data, opts = {}) {
       </div>
 
       <!-- 4 actions rapides : pastilles orange -->
-      <nav class="cv-quick" aria-label="Actions rapides">
+      <nav class="cv-quick" aria-label="Actions rapides" data-i18n-aria="quickNav">
         <a class="cv-qa" href="tel:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-phone")}</span><span>Appeler</span>
+          <span class="cv-qa-circle">${icon("i-phone")}</span><span data-i18n="call">Appeler</span>
         </a>
         <a class="cv-qa" href="sms:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-chat")}</span><span>Message</span>
+          <span class="cv-qa-circle">${icon("i-chat")}</span><span data-i18n="message">Message</span>
         </a>
         <a class="cv-qa" href="mailto:${esc(data.email)}">
-          <span class="cv-qa-circle">${icon("i-mail")}</span><span>Email</span>
+          <span class="cv-qa-circle">${icon("i-mail")}</span><span data-i18n="email">Email</span>
         </a>
         <a class="cv-qa" id="saveContactBtn" href="./${esc(vcfFile)}" download="${esc(data.slug)}.vcf">
-          <span class="cv-qa-circle">${icon("i-userplus")}</span><span>Enregistrer le contact</span>
+          <span class="cv-qa-circle">${icon("i-userplus")}</span><span data-i18n="save">Enregistrer le contact</span>
         </a>
       </nav>
 
@@ -215,13 +221,17 @@ export function generateCardPage(data, opts = {}) {
   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
     <div id="savedToast" class="toast cv-toast-ok align-items-center" role="status" aria-live="polite">
       <div class="d-flex">
-        <div class="toast-body">Contact enregistré dans votre téléphone.</div>
+        <div class="toast-body" data-i18n="toast">Contact enregistré dans votre téléphone.</div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/boosted@${BOOSTED_VERSION}/dist/js/boosted.bundle.min.js"></script>
+  <script>
+    // Dictionnaire FR/EN généré depuis data/<slug>.json (aucune langue en dur ici).
+    const I18N = ${JSON.stringify(data.i18n || { fr: {}, en: {} })};
+  </script>
   <script>
     // Affiche le toast quand l'utilisateur télécharge la vCard.
     document.getElementById("saveContactBtn").addEventListener("click", function () {
@@ -230,6 +240,31 @@ export function generateCardPage(data, opts = {}) {
         boosted.Toast.getOrCreateInstance(el).show();
       }
     });
+
+    // Bilinguisme : détecte la langue du téléphone, sélecteur FR/EN, choix mémorisé.
+    (function () {
+      var group = document.querySelector(".cv-lang");
+      if (!group || !I18N.fr || !I18N.en) return;
+      var btns = Array.prototype.slice.call(group.querySelectorAll("[data-lang]"));
+      function apply(lang) {
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n")];
+          if (v) el.textContent = v;
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-aria")];
+          if (v) el.setAttribute("aria-label", v);
+        });
+        document.documentElement.setAttribute("lang", lang);
+        btns.forEach(function (b) { b.classList.toggle("is-active", b.dataset.lang === lang); });
+        try { localStorage.setItem("cv-lang", lang); } catch (e) {}
+      }
+      var saved = null;
+      try { saved = localStorage.getItem("cv-lang"); } catch (e) {}
+      var initial = saved || (((navigator.language || "fr").toLowerCase().indexOf("fr") === 0) ? "fr" : "en");
+      btns.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.lang); }); });
+      apply(initial);
+    })();
   </script>
 </body>
 </html>`;
