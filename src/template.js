@@ -46,10 +46,6 @@ function iconSprite() {
       <path d="M12 21s-6-6.1-6-10.8a6 6 0 1 1 12 0C18 14.9 12 21 12 21z"/>
       <circle cx="12" cy="10" r="2.2"/>
     </symbol>
-    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="8.5"/>
-      <path d="M3.5 12h17M12 3.5c3 3.2 3 13.8 0 17M12 3.5c-3 3.2-3 13.8 0 17"/>
-    </symbol>
     <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M9.5 6l6 6-6 6"/>
     </symbol>
@@ -82,17 +78,8 @@ export function generateCardPage(data, opts = {}) {
   const primary = data.phones.find((p) => p.primary) || data.phones[0];
   const fullName = `${data.firstName} ${data.lastName}`;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`;
-  // Rendu statique en ANGLAIS par défaut (affichage immédiat) ; FR via sélecteur.
-  const FR = (data.i18n && data.i18n.fr) || {};
-  const EN = (data.i18n && data.i18n.en) || {};
-  const L = (k, fb = "") => EN[k] || FR[k] || fb;
-  const tTagline = EN.tagline || FR.tagline || data.tagline;
-  const tPosition = EN.position || FR.position || data.position;
-  const tDept = EN.department || FR.department || data.department;
-  const enAddr = EN.addressLines && EN.addressLines.length > 0 ? EN.addressLines : null;
-  const frAddr = FR.addressLines && FR.addressLines.length > 0 ? FR.addressLines : null;
-  const baseAddr = data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address];
-  const tAddrLines = enAddr || frAddr || baseAddr;
+  // Page 100 % anglaise : textes en dur ci-dessous (aucun dictionnaire).
+  const addressLines = data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address];
 
   // Lignes de contact : pastille orange + texte + chevron (maquette).
   const phoneRows = data.phones
@@ -115,7 +102,7 @@ export function generateCardPage(data, opts = {}) {
   const socialBlock =
     data.social && data.social.length > 0
       ? `
-      <div class="d-flex justify-content-center gap-2 mt-3" aria-label="${esc(L("socialNav", "Social media"))}" data-i18n-aria="socialNav">
+      <div class="d-flex justify-content-center gap-2 mt-3" aria-label="Social media">
         ${data.social
           .map(
             (s) => `
@@ -158,37 +145,31 @@ export function generateCardPage(data, opts = {}) {
           <img class="cv-logo" src="${asset(data.logo)}" alt="Orange Money">
           <p class="cv-logo-slogan">${esc(data.slogan)}</p>
         </div>
-        <p class="cv-tagline"><span data-i18n-field="tagline">${esc(tTagline)}</span><span class="cv-tagline-bar"></span></p>
+        <p class="cv-tagline"><span>${esc(data.tagline)}</span><span class="cv-tagline-bar"></span></p>
       </header>
-
-      <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
-      <div class="cv-lang" role="group" aria-label="Langue / Language">
-        <button type="button" class="cv-lang-btn" data-lang="fr">FR</button>
-        <button type="button" class="cv-lang-btn is-active" data-lang="en">EN</button>
-      </div>
 
       <!-- Identité -->
       <div class="text-center cv-id">
         <img class="cv-avatar" src="${asset(data.photo)}" alt="Photo de ${esc(fullName)}">
         <h1 class="cv-name mt-3 mb-1">${esc(fullName)}</h1>
-        <p class="cv-role mb-1" data-i18n-field="position">${esc(tPosition)}</p>
-        <p class="cv-dept mb-1" data-i18n-field="department">${esc(tDept)}</p>
+        <p class="cv-role mb-1">${esc(data.position)}</p>
+        <p class="cv-dept mb-1">${esc(data.department)}</p>
         <span class="cv-rule" aria-hidden="true"></span>
       </div>
 
       <!-- 4 actions rapides : pastilles orange -->
-      <nav class="cv-quick" aria-label="${esc(L("quickNav", "Quick actions"))}" data-i18n-aria="quickNav">
+      <nav class="cv-quick" aria-label="Quick actions">
         <a class="cv-qa" href="tel:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-phone")}</span><span data-i18n="call">${esc(L("call", "Call"))}</span>
+          <span class="cv-qa-circle">${icon("i-phone")}</span><span>Call</span>
         </a>
         <a class="cv-qa" href="sms:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-chat")}</span><span data-i18n="message">${esc(L("message", "Message"))}</span>
+          <span class="cv-qa-circle">${icon("i-chat")}</span><span>Message</span>
         </a>
         <a class="cv-qa" href="mailto:${esc(data.email)}">
-          <span class="cv-qa-circle">${icon("i-mail")}</span><span data-i18n="email">${esc(L("email", "Email"))}</span>
+          <span class="cv-qa-circle">${icon("i-mail")}</span><span>Email</span>
         </a>
         <a class="cv-qa" id="saveContactBtn" href="./${esc(vcfFile)}" download="${esc(data.slug)}.vcf">
-          <span class="cv-qa-circle">${icon("i-userplus")}</span><span data-i18n="save">${esc(L("save", "Save contact"))}</span>
+          <span class="cv-qa-circle">${icon("i-userplus")}</span><span>Save contact</span>
         </a>
       </nav>
 
@@ -205,14 +186,7 @@ export function generateCardPage(data, opts = {}) {
         <li class="list-group-item cv-row">
           <a href="${mapsUrl}" target="_blank" rel="noopener" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
             <span class="cv-row-ic">${icon("i-geo")}</span>
-            <span class="d-block cv-row-addr" data-i18n-field="addressLines">${tAddrLines.map((l) => esc(l)).join("<br>")}</span>
-            ${icon("i-chevron", "cv-chevron ms-auto")}
-          </a>
-        </li>
-        <li class="list-group-item cv-row">
-          <a href="${esc(data.website.url)}" target="_blank" rel="noopener" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
-            <span class="cv-row-ic">${icon("i-globe")}</span>
-            <strong class="d-block">${esc(data.website.label)}</strong>
+            <span class="d-block cv-row-addr">${addressLines.map((l) => esc(l)).join("<br>")}</span>
             ${icon("i-chevron", "cv-chevron ms-auto")}
           </a>
         </li>
@@ -231,17 +205,13 @@ export function generateCardPage(data, opts = {}) {
   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
     <div id="savedToast" class="toast cv-toast-ok align-items-center" role="status" aria-live="polite">
       <div class="d-flex">
-        <div class="toast-body" data-i18n="toast">${esc(L("toast", "Contact saved to your phone."))}</div>
+        <div class="toast-body">Contact saved to your phone.</div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/boosted@${BOOSTED_VERSION}/dist/js/boosted.bundle.min.js"></script>
-  <script>
-    // Dictionnaire FR/EN généré depuis data/<slug>.json (aucune langue en dur ici).
-    const I18N = ${JSON.stringify(data.i18n || { fr: {}, en: {} })};
-  </script>
   <script>
     // Affiche le toast quand l'utilisateur télécharge la vCard.
     document.getElementById("saveContactBtn").addEventListener("click", function () {
@@ -250,42 +220,6 @@ export function generateCardPage(data, opts = {}) {
         boosted.Toast.getOrCreateInstance(el).show();
       }
     });
-
-    // Bilinguisme : détecte la langue du téléphone, sélecteur FR/EN, choix mémorisé.
-    (function () {
-      var group = document.querySelector(".cv-lang");
-      if (!group || !I18N.fr || !I18N.en) return;
-      var btns = Array.prototype.slice.call(group.querySelectorAll("[data-lang]"));
-      function escHtml(s) {
-        return String(s).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-      }
-      function apply(lang) {
-        document.querySelectorAll("[data-i18n]").forEach(function (el) {
-          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n")];
-          if (v) el.textContent = v;
-        });
-        // Champs de contenu (texte simple ou tableau de lignes pour l'adresse).
-        document.querySelectorAll("[data-i18n-field]").forEach(function (el) {
-          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-field")];
-          if (v == null) return;
-          if (Array.isArray(v)) el.innerHTML = v.map(escHtml).join("<br>");
-          else el.textContent = v;
-        });
-        document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
-          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-aria")];
-          if (v) el.setAttribute("aria-label", v);
-        });
-        document.documentElement.setAttribute("lang", lang);
-        btns.forEach(function (b) { b.classList.toggle("is-active", b.dataset.lang === lang); });
-        try { localStorage.setItem("cv-lang", lang); } catch (e) {}
-      }
-      var saved = null;
-      try { saved = localStorage.getItem("cv-lang"); } catch (e) {}
-      // Anglais par défaut (première visite) ; le choix FR est mémorisé.
-      var initial = saved || "en";
-      btns.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.lang); }); });
-      apply(initial);
-    })();
   </script>
 </body>
 </html>`;

@@ -35,42 +35,7 @@
     "url": "https://www.orange.com.lr"
   },
   "_social_note": "Réseaux sociaux V1 : LinkedIn + WhatsApp uniquement (X/YouTube à ajouter plus tard si besoin).",
-  "i18n": {
-    "fr": {
-      "call": "Appeler",
-      "message": "Message",
-      "email": "Email",
-      "save": "Enregistrer le contact",
-      "toast": "Contact enregistré dans votre téléphone.",
-      "quickNav": "Actions rapides",
-      "socialNav": "Réseaux sociaux",
-      "tagline": "DES SERVICES FINANCIERS NUMÉRIQUES POUR UN AVENIR RADIEUX",
-      "position": "Superviseur Senior",
-      "department": "Projet & Intégration Orange Money",
-      "addressLines": [
-        "Orange Liberia",
-        "Orange Icon 16, 3e étage, Sinkor",
-        "Tubman Boulevard, Monrovia, Liberia"
-      ]
-    },
-    "en": {
-      "call": "Call",
-      "message": "Message",
-      "email": "Email",
-      "save": "Save contact",
-      "toast": "Contact saved to your phone.",
-      "quickNav": "Quick actions",
-      "socialNav": "Social media",
-      "tagline": "DIGITAL FINANCIAL SERVICES FOR A BRIGHTER TOMORROW",
-      "position": "Senior Supervisor",
-      "department": "Orange Money Project & Integration",
-      "addressLines": [
-        "Orange Liberia",
-        "Orange Icon 16, 3rd Floor, Sinkor",
-        "Tubman Boulevard, Monrovia, Liberia"
-      ]
-    }
-  },
+  "_website_note": "URL conservée pour la vCard ; la ligne d'affichage a été retirée de la carte.",
   "social": [
     {
       "label": "LinkedIn",

@@ -93,15 +93,10 @@ Après le 1er déploiement, si l'URL réelle diffère du placeholder :
 4. Attendre la propagation DNS, vérifier le certificat HTTPS auto.
 5. Rebuilder avec `BASE_URL=https://macartedevisite.com` et réimprimer les QR.
 
-## Bilinguisme FR/EN
+## Langue
 
-- Une seule URL et un seul QR : les libellés vivent dans `"i18n": {"fr": {...},
-  "en": {...}}` de `data/<slug>.json` (noms, numéros, adresses restant inchangés).
-- Au chargement : langue du téléphone détectée (`navigator.language`),
-  FR par défaut ; sélecteur FR|EN en haut de carte, choix mémorisé
-  (`localStorage`). Contenu statique en FR pour un affichage immédiat sans JS.
-- Numéros affichés collés (`+231777777912`) ; les liens `tel:`/`sms:` et la
-  vCard utilisent la même forme internationale.
+- Site 100 % en anglais (marché libérien) : textes en dur dans le template,
+  aucun sélecteur, aucun JS de traduction.
 
 ## Remplacer la photo
 
