@@ -1,0 +1,14 @@
+{
+  "name": "carte-de-visite-digitale",
+  "version": "1.0.0",
+  "description": "Cartes de visite digitales Orange Money Liberia — pages statiques générées depuis data/*.json",
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.js",
+    "build:prod": "BASE_URL=https://carte-de-visite-digitale.vercel.app node src/build.js",
+    "serve": "npx serve ."
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

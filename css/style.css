@@ -1,0 +1,498 @@
+/* ==========================================================================
+   TOKENS CENTRALISÉS — Orange Design System (ODS) + Boosted
+   --------------------------------------------------------------------------
+   SEUL fichier où des valeurs de couleur / typo en dur sont autorisées.
+   Tout le reste du CSS/HTML doit référencer ces variables (--ods-*, --cv-*).
+   Boosted 5.3.8 via CDN : https://boosted.orange.com/docs/5.3/
+   ========================================================================== */
+
+:root {
+  /* --- Marque Orange --- */
+  --ods-orange-100: #ff7900; /* boutons primaires, accents */
+  --ods-orange-200: #f16e00; /* hover / active */
+
+  /* --- Neutres --- */
+  --ods-black-900: #000;
+  --ods-white-100: #fff;
+
+  /* --- Gris --- */
+  --ods-gray-200: #eee; /* fonds de cartes / sections (clair) */
+  --ods-gray-300: #ddd;
+  --ods-gray-400: #ccc; /* bordures, séparateurs */
+  --ods-gray-500: #999;
+  --ods-gray-600: #666; /* texte secondaire */
+  --ods-gray-700: #595959;
+  --ods-gray-800: #333; /* textes forts */
+  --ods-gray-900: #141414;
+
+  /* --- Fonctionnel --- */
+  --ods-green-confirm: #228722; /* ex : "contact enregistré" */
+
+  /* --- Typographie officielle Boosted : Helvetica Neue --- */
+  --cv-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --cv-fs-body: 1rem;        /* corps de texte 16px */
+  --cv-fs-lead: 1.25rem;     /* introduction / poste */
+  --cv-fs-secondary: 0.875rem; /* labels / texte secondaire 14px */
+  --cv-fs-h1-mobile: 1.5rem; /* h1 sur mobile */
+  --cv-fs-h5-mobile: 1rem;   /* h5/h6 sur mobile */
+
+  /* --- Rayons / ombres --- */
+  --cv-radius-avatar: 50%;
+  --cv-shadow-avatar: 0 4px 12px rgb(0 0 0 / 0.18);
+  --cv-shadow-card: 0 2px 8px rgb(0 0 0 / 0.10);
+
+  /* --- Mapping vers les variables Bootstrap/Boosted (pas de nouvelles teintes) --- */
+  --bs-primary: var(--ods-orange-100);
+  --bs-link-color: var(--ods-orange-100);
+  --bs-link-hover-color: var(--ods-orange-200);
+}
+
+/* --- Base typo : titres bold, corps regular --- */
+body {
+  font-family: var(--cv-font-family);
+  font-size: var(--cv-fs-body);
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+.lead {
+  font-size: var(--cv-fs-lead);
+  font-weight: 400;
+}
+
+.text-secondary-custom {
+  font-size: var(--cv-fs-secondary);
+}
+
+/* --- Header --- */
+.cv-logo {
+  height: 44px;
+  width: auto;
+}
+
+.cv-slogan {
+  font-size: var(--cv-fs-secondary);
+  color: var(--ods-gray-600);
+  letter-spacing: 0.02em;
+}
+
+/* --- Avatar : cercle, bordure blanche, légère ombre --- */
+.cv-avatar {
+  width: 132px;
+  height: 132px;
+  border-radius: var(--cv-radius-avatar);
+  object-fit: cover;
+  border: 4px solid var(--ods-white-100);
+  box-shadow: var(--cv-shadow-avatar), 0 0 0 6px var(--ods-gray-200);
+  background-color: var(--ods-gray-300);
+}
+
+/* --- Carte principale --- */
+.cv-card {
+  border: 1px solid var(--ods-gray-300);
+  box-shadow: var(--cv-shadow-card);
+}
+
+/* --- Rangée d'actions : même gabarit pour les 4 boutons --- */
+.cv-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* mobile : 2x2 */
+  gap: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .cv-actions {
+    grid-template-columns: repeat(4, 1fr); /* desktop : 4 en ligne */
+  }
+}
+
+.cv-actions .btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 76px;
+  font-size: var(--cv-fs-secondary);
+  font-weight: 700;
+}
+
+.cv-actions .btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* --- Bouton primaire = orange de marque (surcharge minimale) --- */
+.btn-primary {
+  background-color: var(--ods-orange-100);
+  border-color: var(--ods-orange-100);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus-visible {
+  background-color: var(--ods-orange-200);
+  border-color: var(--ods-orange-200);
+}
+
+.btn-outline-primary {
+  color: var(--ods-orange-100);
+  border-color: var(--ods-orange-100);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background-color: var(--ods-orange-200);
+  border-color: var(--ods-orange-200);
+}
+
+/* --- Liste de coordonnées --- */
+.cv-contact-list .list-group-item {
+  border-color: var(--ods-gray-300);
+}
+
+.cv-contact-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--ods-orange-100);
+  flex-shrink: 0;
+}
+
+.cv-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--ods-gray-500);
+}
+
+.cv-contact-label {
+  font-size: var(--cv-fs-secondary);
+  color: var(--ods-gray-600);
+}
+
+/* --- Réseaux sociaux : boutons ronds --- */
+.cv-social-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ods-gray-400);
+  color: var(--ods-gray-800);
+}
+
+.cv-social-btn:hover {
+  border-color: var(--ods-orange-100);
+  color: var(--ods-orange-100);
+}
+
+.cv-social-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* --- Footer discret --- */
+.cv-footer {
+  font-size: var(--cv-fs-secondary);
+  color: var(--ods-gray-600);
+}
+
+/* --- Confirmation (toast "contact enregistré") --- */
+.cv-toast-ok {
+  border-left: 4px solid var(--ods-green-confirm);
+}
+
+/* --- Tailles mobiles conformes à l'échelle officielle --- */
+@media (max-width: 575.98px) {
+  h1, .h1 {
+    font-size: var(--cv-fs-h1-mobile);
+  }
+
+  h5, .h5, h6, .h6 {
+    font-size: var(--cv-fs-h5-mobile);
+  }
+}
+
+/* ==========================================================================
+   RENDU MAQUETTE VALIDÉE (pastilles orange, lignes arrondies)
+   --------------------------------------------------------------------------
+   Couleurs officielles des marques pour les pastilles sociales :
+   --cv-brand-linkedin #0a66c2 (bleu LinkedIn), --cv-brand-whatsapp #25d366
+   (vert WhatsApp). Tout le reste reste en tokens ODS ci-dessus.
+   ========================================================================== */
+
+:root {
+  --cv-brand-linkedin: #0a66c2;
+  --cv-brand-whatsapp: #25d366;
+  --cv-sheet-radius: 24px;
+  --cv-row-radius: 16px;
+}
+
+body {
+  background-color: var(--ods-gray-200);
+}
+
+/* --- Feuille blanche arrondie qui contient toute la carte --- */
+.cv-sheet {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ods-white-100);
+  border-radius: var(--cv-sheet-radius);
+  box-shadow: var(--cv-shadow-card);
+  padding: 1.5rem 1.25rem 1.25rem;
+}
+
+.cv-sheet > :not(.cv-deco) {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Décor de marque : visuel officiel OmLogo1 (maquette) --- */
+.cv-deco {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cv-deco-top {
+  width: 420px;
+  height: auto;
+  top: -130px;
+  right: -150px;
+  opacity: 0.1;
+}
+
+.cv-deco-bottom {
+  width: 120px;
+  height: auto;
+  bottom: 70px;
+  right: -38px;
+  opacity: 0.55;
+}
+
+/* --- Haut : logo à gauche, baseline corporate à droite --- */
+.cv-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.cv-top .cv-logo {
+  height: 52px;
+}
+
+.cv-logo-slogan {
+  margin: 0.3rem 0 0;
+  font-size: var(--cv-fs-secondary);
+  font-weight: 700;
+  color: var(--ods-orange-100);
+}
+
+.cv-tagline {
+  margin: 0;
+  text-align: right;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--ods-gray-600);
+}
+
+.cv-tagline-bar {
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin: 0.35rem 0 0 auto;
+  background-color: var(--ods-orange-100);
+}
+
+/* --- Identité --- */
+.cv-id {
+  margin-bottom: 1.25rem;
+}
+
+.cv-avatar {
+  width: 124px;
+  height: 124px;
+}
+
+.cv-name {
+  font-size: 1.75rem;
+  color: var(--ods-black-900);
+}
+
+.cv-role {
+  font-size: var(--cv-fs-lead);
+  font-weight: 700;
+  color: var(--ods-orange-100);
+}
+
+.cv-dept {
+  font-size: var(--cv-fs-body);
+  color: var(--ods-gray-600);
+}
+
+.cv-rule {
+  display: inline-block;
+  width: 48px;
+  height: 3px;
+  background-color: var(--ods-orange-100);
+}
+
+/* --- 4 actions rapides : pastille orange + label --- */
+.cv-quick {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-qa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  color: var(--ods-gray-800);
+  font-size: var(--cv-fs-secondary);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.cv-qa-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--ods-orange-100);
+  color: var(--ods-white-100);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cv-qa:active .cv-qa-circle {
+  background-color: var(--ods-orange-200);
+}
+
+.cv-qa-circle svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* --- Lignes de contact : cartes arrondies sans bordure, ombre douce (maquette) --- */
+.cv-rows {
+  --bs-list-group-bg: transparent;
+  --bs-list-group-border-width: 0;
+  gap: 0.65rem;
+}
+
+.cv-row {
+  border: 0 !important;
+  border-radius: var(--cv-row-radius) !important;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.08);
+  background-color: var(--ods-white-100);
+  padding: 0.7rem 0.75rem;
+}
+
+.cv-row strong {
+  font-size: 0.9375rem;
+}
+
+.cv-row strong.cv-row-email {
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.cv-row-addr {
+  font-weight: 400;
+  font-size: 0.9375rem;
+}
+
+.cv-row-ic {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--ods-orange-100);
+  color: var(--ods-white-100);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cv-row-ic svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cv-row-sub {
+  font-size: var(--cv-fs-secondary);
+  color: var(--ods-gray-600);
+}
+
+/* --- Réseaux sociaux : pastilles couleurs marques --- */
+.cv-social-brand {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ods-white-100);
+}
+
+.cv-social-brand svg {
+  width: 24px;
+  height: 24px;
+}
+
+.cv-social-linkedin {
+  background-color: var(--cv-brand-linkedin);
+}
+
+.cv-social-whatsapp {
+  background-color: var(--cv-brand-whatsapp);
+}
+
+/* --- Pied de carte --- */
+.cv-foot {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.cv-foot-tick {
+  display: block;
+  width: 3px;
+  height: 22px;
+  margin: 0 auto 0.4rem;
+  background-color: var(--ods-orange-100);
+}
+
+.cv-foot-slogan {
+  font-weight: 700;
+  color: var(--ods-orange-100);
+  margin-bottom: 0.25rem;
+}
+
+/* --- Mode sombre Boosted : feuille et lignes suivent le thème --- */
+[data-bs-theme="dark"] body,
+[data-bs-theme="dark"] {
+  background-color: var(--ods-gray-900);
+}
+
+[data-bs-theme="dark"] .cv-sheet,
+[data-bs-theme="dark"] .cv-row {
+  background-color: var(--ods-gray-900);
+  border-color: var(--ods-gray-700) !important;
+}
+
+[data-bs-theme="dark"] .cv-name,
+[data-bs-theme="dark"] .cv-qa {
+  color: var(--ods-white-100);
+}

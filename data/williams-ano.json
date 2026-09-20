@@ -1,0 +1,50 @@
+{
+  "slug": "williams-ano",
+  "firstName": "Williams",
+  "lastName": "ANO",
+  "position": "Senior Supervisor",
+  "department": "Orange Money Project & Integration",
+  "company": "Orange Liberia",
+  "slogan": "Trust the future",
+  "tagline": "DIGITAL FINANCIAL SERVICES FOR A BRIGHTER TOMORROW",
+  "photo": "../assets/photo.jpg",
+  "logo": "../assets/logo.svg",
+  "phones": [
+    {
+      "label": "Mobile, Liberia",
+      "display": "+231 777 777 912",
+      "href": "+231777777912",
+      "primary": true
+    },
+    {
+      "label": "Mobile, Côte d'Ivoire",
+      "display": "+225 07 4759 2652",
+      "href": "+2250747592652",
+      "primary": false
+    }
+  ],
+  "email": "williams.ano@orange.com",
+  "address": "Orange Liberia, Orange Icon 16, 3rd Floor, Sinkor, Tubman Boulevard, Monrovia, Liberia",
+  "addressLines": [
+    "Orange Liberia",
+    "Orange Icon 16, 3rd Floor, Sinkor",
+    "Tubman Boulevard, Monrovia, Liberia"
+  ],
+  "website": {
+    "label": "www.orange.com.lr",
+    "url": "https://www.orange.com.lr"
+  },
+  "_social_note": "Réseaux sociaux V1 : LinkedIn + WhatsApp uniquement (X/YouTube à ajouter plus tard si besoin).",
+  "social": [
+    {
+      "label": "LinkedIn",
+      "icon": "linkedin",
+      "url": "https://www.linkedin.com/in/koidja-williams-ano-7672b2130/"
+    },
+    {
+      "label": "WhatsApp",
+      "icon": "whatsapp",
+      "url": "https://wa.me/2250747592652"
+    }
+  ]
+}
