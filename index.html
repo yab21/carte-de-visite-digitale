@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,28 +65,28 @@
           <img class="cv-logo" src="./assets/logo.svg" alt="Orange Money">
           <p class="cv-logo-slogan">Trust the future</p>
         </div>
-        <p class="cv-tagline"><span data-i18n-field="tagline">DES SERVICES FINANCIERS NUMÉRIQUES POUR UN AVENIR RADIEUX</span><span class="cv-tagline-bar"></span></p>
+        <p class="cv-tagline"><span data-i18n-field="tagline">DIGITAL FINANCIAL SERVICES FOR A BRIGHTER TOMORROW</span><span class="cv-tagline-bar"></span></p>
       </header>
 
       <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
       <div class="cv-lang" role="group" aria-label="Langue / Language">
-        <button type="button" class="cv-lang-btn is-active" data-lang="fr">FR</button>
-        <button type="button" class="cv-lang-btn" data-lang="en">EN</button>
+        <button type="button" class="cv-lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="cv-lang-btn is-active" data-lang="en">EN</button>
       </div>
 
       <!-- Identité -->
       <div class="text-center cv-id">
         <img class="cv-avatar" src="./assets/photo.jpg" alt="Photo de Williams ANO">
         <h1 class="cv-name mt-3 mb-1">Williams ANO</h1>
-        <p class="cv-role mb-1" data-i18n-field="position">Superviseur Senior</p>
-        <p class="cv-dept mb-2" data-i18n-field="department">Projet &amp; Intégration Orange Money</p>
+        <p class="cv-role mb-1" data-i18n-field="position">Senior Supervisor</p>
+        <p class="cv-dept mb-1" data-i18n-field="department">Orange Money Project &amp; Integration</p>
         <span class="cv-rule" aria-hidden="true"></span>
       </div>
 
       <!-- 4 actions rapides : pastilles orange -->
-      <nav class="cv-quick" aria-label="Actions rapides" data-i18n-aria="quickNav">
+      <nav class="cv-quick" aria-label="Quick actions" data-i18n-aria="quickNav">
         <a class="cv-qa" href="tel:+231777777912">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span><span data-i18n="call">Appeler</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></span><span data-i18n="call">Call</span>
         </a>
         <a class="cv-qa" href="sms:+231777777912">
           <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-chat"></use></svg></span><span data-i18n="message">Message</span>
@@ -95,7 +95,7 @@
           <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-mail"></use></svg></span><span data-i18n="email">Email</span>
         </a>
         <a class="cv-qa" id="saveContactBtn" href="./williams-ano/williams-ano.vcf" download="williams-ano.vcf">
-          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-userplus"></use></svg></span><span data-i18n="save">Enregistrer le contact</span>
+          <span class="cv-qa-circle"><svg class="" aria-hidden="true" focusable="false"><use href="#i-userplus"></use></svg></span><span data-i18n="save">Save contact</span>
         </a>
       </nav>
 
@@ -132,7 +132,7 @@
         <li class="list-group-item cv-row">
           <a href="https://www.google.com/maps/search/?api=1&query=Orange%20Liberia%2C%20Orange%20Icon%2016%2C%203rd%20Floor%2C%20Sinkor%2C%20Tubman%20Boulevard%2C%20Monrovia%2C%20Liberia" target="_blank" rel="noopener" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
             <span class="cv-row-ic"><svg class="" aria-hidden="true" focusable="false"><use href="#i-geo"></use></svg></span>
-            <span class="d-block cv-row-addr" data-i18n-field="addressLines">Orange Liberia<br>Orange Icon 16, 3e étage, Sinkor<br>Tubman Boulevard, Monrovia, Liberia</span>
+            <span class="d-block cv-row-addr" data-i18n-field="addressLines">Orange Liberia<br>Orange Icon 16, 3rd Floor, Sinkor<br>Tubman Boulevard, Monrovia, Liberia</span>
             <svg class="cv-chevron ms-auto" aria-hidden="true" focusable="false"><use href="#i-chevron"></use></svg>
           </a>
         </li>
@@ -145,7 +145,7 @@
         </li>
       </ul>
       
-      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux" data-i18n-aria="socialNav">
+      <div class="d-flex justify-content-center gap-2 mt-3" aria-label="Social media" data-i18n-aria="socialNav">
         
           <a class="cv-social-brand cv-social-linkedin" href="https://www.linkedin.com/in/koidja-williams-ano-7672b2130/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
             <svg class="" aria-hidden="true" focusable="false"><use href="#i-linkedin"></use></svg>
@@ -167,7 +167,7 @@
   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
     <div id="savedToast" class="toast cv-toast-ok align-items-center" role="status" aria-live="polite">
       <div class="d-flex">
-        <div class="toast-body" data-i18n="toast">Contact enregistré dans votre téléphone.</div>
+        <div class="toast-body" data-i18n="toast">Contact saved to your phone.</div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>
     </div>
@@ -217,7 +217,8 @@
       }
       var saved = null;
       try { saved = localStorage.getItem("cv-lang"); } catch (e) {}
-      var initial = saved || (((navigator.language || "fr").toLowerCase().indexOf("fr") === 0) ? "fr" : "en");
+      // Anglais par défaut (première visite) ; le choix FR est mémorisé.
+      var initial = saved || "en";
       btns.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.lang); }); });
       apply(initial);
     })();

@@ -512,6 +512,122 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* --- Mode compact : un maximum d'infos visible sans scroll (mobile) --- */
+main.container {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.cv-sheet {
+  padding: 0.8rem 0.7rem 0.7rem;
+}
+
+.cv-top {
+  margin-bottom: 0.2rem;
+}
+
+.cv-top .cv-logo {
+  height: 44px;
+}
+
+.cv-tagline {
+  font-size: 0.625rem;
+}
+
+.cv-lang {
+  margin: 0 0 0.3rem;
+}
+
+.cv-avatar {
+  width: 92px;
+  height: 92px;
+}
+
+.cv-id {
+  margin-bottom: 0.5rem;
+}
+
+.cv-name {
+  font-size: 1.35rem;
+  margin-top: 0.3rem !important;
+  margin-bottom: 0 !important;
+}
+
+.cv-role {
+  font-size: 1rem;
+}
+
+.cv-dept {
+  font-size: 0.8125rem;
+}
+
+.cv-quick {
+  margin-bottom: 0.7rem;
+}
+
+.cv-qa {
+  font-size: 0.7rem;
+  gap: 0.3rem;
+}
+
+.cv-qa-circle {
+  width: 50px;
+  height: 50px;
+}
+
+.cv-qa-circle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cv-rows {
+  gap: 0.4rem;
+}
+
+.cv-row {
+  padding: 0.5rem 0.7rem;
+}
+
+.cv-row strong {
+  font-size: 0.8125rem;
+}
+
+.cv-row-sub {
+  font-size: 0.75rem;
+}
+
+.cv-row-ic {
+  width: 36px;
+  height: 36px;
+}
+
+.cv-row-ic svg {
+  width: 19px;
+  height: 19px;
+}
+
+.cv-social-brand {
+  width: 38px;
+  height: 38px;
+}
+
+.cv-social-brand svg {
+  width: 19px;
+  height: 19px;
+}
+
+.cv-foot {
+  margin-top: 0.6rem;
+}
+
+.cv-foot-tick {
+  height: 14px;
+}
+
+.cv-foot-slogan {
+  margin-bottom: 0.15rem;
+}
+
 /* --- Mode sombre Boosted : feuille et lignes suivent le thème --- */
 [data-bs-theme="dark"] body,
 [data-bs-theme="dark"] {

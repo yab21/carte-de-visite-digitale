@@ -82,14 +82,17 @@ export function generateCardPage(data, opts = {}) {
   const primary = data.phones.find((p) => p.primary) || data.phones[0];
   const fullName = `${data.firstName} ${data.lastName}`;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`;
-  // Rendu statique en FR par défaut (affichage immédiat) ; le JS bascule vers EN si besoin.
+  // Rendu statique en ANGLAIS par défaut (affichage immédiat) ; FR via sélecteur.
   const FR = (data.i18n && data.i18n.fr) || {};
-  const tTagline = FR.tagline || data.tagline;
-  const tPosition = FR.position || data.position;
-  const tDept = FR.department || data.department;
-  const tAddrLines = FR.addressLines && FR.addressLines.length > 0
-    ? FR.addressLines
-    : (data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address]);
+  const EN = (data.i18n && data.i18n.en) || {};
+  const L = (k, fb = "") => EN[k] || FR[k] || fb;
+  const tTagline = EN.tagline || FR.tagline || data.tagline;
+  const tPosition = EN.position || FR.position || data.position;
+  const tDept = EN.department || FR.department || data.department;
+  const enAddr = EN.addressLines && EN.addressLines.length > 0 ? EN.addressLines : null;
+  const frAddr = FR.addressLines && FR.addressLines.length > 0 ? FR.addressLines : null;
+  const baseAddr = data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address];
+  const tAddrLines = enAddr || frAddr || baseAddr;
 
   // Lignes de contact : pastille orange + texte + chevron (maquette).
   const phoneRows = data.phones
@@ -112,7 +115,7 @@ export function generateCardPage(data, opts = {}) {
   const socialBlock =
     data.social && data.social.length > 0
       ? `
-      <div class="d-flex justify-content-center gap-3 mt-4" aria-label="Réseaux sociaux" data-i18n-aria="socialNav">
+      <div class="d-flex justify-content-center gap-2 mt-3" aria-label="${esc(L("socialNav", "Social media"))}" data-i18n-aria="socialNav">
         ${data.social
           .map(
             (s) => `
@@ -125,7 +128,7 @@ export function generateCardPage(data, opts = {}) {
       : "";
 
   return `<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -160,8 +163,8 @@ export function generateCardPage(data, opts = {}) {
 
       <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
       <div class="cv-lang" role="group" aria-label="Langue / Language">
-        <button type="button" class="cv-lang-btn is-active" data-lang="fr">FR</button>
-        <button type="button" class="cv-lang-btn" data-lang="en">EN</button>
+        <button type="button" class="cv-lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="cv-lang-btn is-active" data-lang="en">EN</button>
       </div>
 
       <!-- Identité -->
@@ -169,23 +172,23 @@ export function generateCardPage(data, opts = {}) {
         <img class="cv-avatar" src="${asset(data.photo)}" alt="Photo de ${esc(fullName)}">
         <h1 class="cv-name mt-3 mb-1">${esc(fullName)}</h1>
         <p class="cv-role mb-1" data-i18n-field="position">${esc(tPosition)}</p>
-        <p class="cv-dept mb-2" data-i18n-field="department">${esc(tDept)}</p>
+        <p class="cv-dept mb-1" data-i18n-field="department">${esc(tDept)}</p>
         <span class="cv-rule" aria-hidden="true"></span>
       </div>
 
       <!-- 4 actions rapides : pastilles orange -->
-      <nav class="cv-quick" aria-label="Actions rapides" data-i18n-aria="quickNav">
+      <nav class="cv-quick" aria-label="${esc(L("quickNav", "Quick actions"))}" data-i18n-aria="quickNav">
         <a class="cv-qa" href="tel:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-phone")}</span><span data-i18n="call">Appeler</span>
+          <span class="cv-qa-circle">${icon("i-phone")}</span><span data-i18n="call">${esc(L("call", "Call"))}</span>
         </a>
         <a class="cv-qa" href="sms:${esc(primary.href)}">
-          <span class="cv-qa-circle">${icon("i-chat")}</span><span data-i18n="message">Message</span>
+          <span class="cv-qa-circle">${icon("i-chat")}</span><span data-i18n="message">${esc(L("message", "Message"))}</span>
         </a>
         <a class="cv-qa" href="mailto:${esc(data.email)}">
-          <span class="cv-qa-circle">${icon("i-mail")}</span><span data-i18n="email">Email</span>
+          <span class="cv-qa-circle">${icon("i-mail")}</span><span data-i18n="email">${esc(L("email", "Email"))}</span>
         </a>
         <a class="cv-qa" id="saveContactBtn" href="./${esc(vcfFile)}" download="${esc(data.slug)}.vcf">
-          <span class="cv-qa-circle">${icon("i-userplus")}</span><span data-i18n="save">Enregistrer le contact</span>
+          <span class="cv-qa-circle">${icon("i-userplus")}</span><span data-i18n="save">${esc(L("save", "Save contact"))}</span>
         </a>
       </nav>
 
@@ -228,7 +231,7 @@ export function generateCardPage(data, opts = {}) {
   <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
     <div id="savedToast" class="toast cv-toast-ok align-items-center" role="status" aria-live="polite">
       <div class="d-flex">
-        <div class="toast-body" data-i18n="toast">Contact enregistré dans votre téléphone.</div>
+        <div class="toast-body" data-i18n="toast">${esc(L("toast", "Contact saved to your phone."))}</div>
         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>
     </div>
@@ -278,7 +281,8 @@ export function generateCardPage(data, opts = {}) {
       }
       var saved = null;
       try { saved = localStorage.getItem("cv-lang"); } catch (e) {}
-      var initial = saved || (((navigator.language || "fr").toLowerCase().indexOf("fr") === 0) ? "fr" : "en");
+      // Anglais par défaut (première visite) ; le choix FR est mémorisé.
+      var initial = saved || "en";
       btns.forEach(function (b) { b.addEventListener("click", function () { apply(b.dataset.lang); }); });
       apply(initial);
     })();
