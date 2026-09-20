@@ -82,7 +82,14 @@ export function generateCardPage(data, opts = {}) {
   const primary = data.phones.find((p) => p.primary) || data.phones[0];
   const fullName = `${data.firstName} ${data.lastName}`;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`;
-  const addressLines = data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address];
+  // Rendu statique en FR par défaut (affichage immédiat) ; le JS bascule vers EN si besoin.
+  const FR = (data.i18n && data.i18n.fr) || {};
+  const tTagline = FR.tagline || data.tagline;
+  const tPosition = FR.position || data.position;
+  const tDept = FR.department || data.department;
+  const tAddrLines = FR.addressLines && FR.addressLines.length > 0
+    ? FR.addressLines
+    : (data.addressLines && data.addressLines.length > 0 ? data.addressLines : [data.address]);
 
   // Lignes de contact : pastille orange + texte + chevron (maquette).
   const phoneRows = data.phones
@@ -148,7 +155,7 @@ export function generateCardPage(data, opts = {}) {
           <img class="cv-logo" src="${asset(data.logo)}" alt="Orange Money">
           <p class="cv-logo-slogan">${esc(data.slogan)}</p>
         </div>
-        <p class="cv-tagline">${esc(data.tagline)}<span class="cv-tagline-bar"></span></p>
+        <p class="cv-tagline"><span data-i18n-field="tagline">${esc(tTagline)}</span><span class="cv-tagline-bar"></span></p>
       </header>
 
       <!-- Sélecteur de langue FR/EN (une seule URL/QR, préférence mémorisée) -->
@@ -161,8 +168,8 @@ export function generateCardPage(data, opts = {}) {
       <div class="text-center cv-id">
         <img class="cv-avatar" src="${asset(data.photo)}" alt="Photo de ${esc(fullName)}">
         <h1 class="cv-name mt-3 mb-1">${esc(fullName)}</h1>
-        <p class="cv-role mb-1">${esc(data.position)}</p>
-        <p class="cv-dept mb-2">${esc(data.department)}</p>
+        <p class="cv-role mb-1" data-i18n-field="position">${esc(tPosition)}</p>
+        <p class="cv-dept mb-2" data-i18n-field="department">${esc(tDept)}</p>
         <span class="cv-rule" aria-hidden="true"></span>
       </div>
 
@@ -195,7 +202,7 @@ export function generateCardPage(data, opts = {}) {
         <li class="list-group-item cv-row">
           <a href="${mapsUrl}" target="_blank" rel="noopener" class="stretched-link text-decoration-none text-body d-flex align-items-center gap-2">
             <span class="cv-row-ic">${icon("i-geo")}</span>
-            <span class="d-block cv-row-addr">${addressLines.map((l) => esc(l)).join("<br>")}</span>
+            <span class="d-block cv-row-addr" data-i18n-field="addressLines">${tAddrLines.map((l) => esc(l)).join("<br>")}</span>
             ${icon("i-chevron", "cv-chevron ms-auto")}
           </a>
         </li>
@@ -246,10 +253,20 @@ export function generateCardPage(data, opts = {}) {
       var group = document.querySelector(".cv-lang");
       if (!group || !I18N.fr || !I18N.en) return;
       var btns = Array.prototype.slice.call(group.querySelectorAll("[data-lang]"));
+      function escHtml(s) {
+        return String(s).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+      }
       function apply(lang) {
         document.querySelectorAll("[data-i18n]").forEach(function (el) {
           var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n")];
           if (v) el.textContent = v;
+        });
+        // Champs de contenu (texte simple ou tableau de lignes pour l'adresse).
+        document.querySelectorAll("[data-i18n-field]").forEach(function (el) {
+          var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-field")];
+          if (v == null) return;
+          if (Array.isArray(v)) el.innerHTML = v.map(escHtml).join("<br>");
+          else el.textContent = v;
         });
         document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
           var v = I18N[lang] && I18N[lang][el.getAttribute("data-i18n-aria")];
